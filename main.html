@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label, input, textarea {
+    margin-bottom: 8px;
+  }
+
+  button {
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+
+  body {
+   background-image: url("anh.jpg");
+   background-repeat: no-repeat;
+   background-size: cover;
+  }
+
+  .tweet-button {
+    vertical-align: top;
+    background-color: rgba(39, 154, 231, 0.692);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 15px;
+    padding: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: box-shadow 0.15s;
+    width: 65px;
+  }
+
+  .tweet-button:hover {
+    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .join-button {
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0);
+    border-color: rgb(41, 118, 211);
+    border-style: solid;
+    border-width: 1px;
+    color: rgb(41, 118, 211);
+    padding: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-left: 200px;
+    margin-top: 20px;
+    transition: background-color 1s, 
+      color 1s;
+  }
+
+  .join-button:hover {
+    background-color: rgb(41, 118, 211);
+    color: white;
+  }
+
+  .join-button:active {
+    opacity: 0.7;
+  }
+
+  .join {
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0);
+    border-color: rgb(41, 118, 211);
+    border-style: solid;
+    border-width: 1px;
+    color: rgb(41, 118, 211);
+    padding: 10px;
+    padding-left: 12px;
+    padding-right: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-left: 100px;
+    margin-top: -44px;
+    transition: background-color 1s, 
+    color 1s;
+  }
+
+  .join:hover {
+    background-color: rgb(212, 212, 198);
+    color: white;
+  }
+
+  .join:active {
+    opacity: 0.7;
+    background-color: white;
+    border-color: rgb(41, 118, 211);
+    border-style: solid;
+    border-width: 1px;
+  }
+
+  .join:focus {
+    background-color: rgba(255, 255, 255, 0);
+    color: black;
+    outline: none;
+  }
+
+</style>
+<head>
+    <title>Lưu link</title>
+    <link rel="shortcut icon" href="icon.jpg" type="image/x-icon">
+</head>
+<body>
+    <form>
+        <label for="filename" class="tweet-button">Tên file:</label>
+        <input type="text" id="filename" name="filename" class="join">
+
+        <label for="filecontent" class="tweet-button">Điền link:</label>
+        <input id="filecontent" name="filecontent" class="join">
+
+        <button type="submit" name="submit" value="submit" class="join-button">Tải xuống</button>
+    </form>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission so we can generate the file content
+
+            const filename = document.querySelector('#filename').value;
+            var filecontent = '<body onload="' + "location.href='" + document.querySelector('#filecontent').value;
+            filecontent = filecontent + "'";
+            filecontent = filecontent + '"';
+            filecontent = filecontent + '></';
+            filecontent = filecontent + 'body>';
+            if (filename && filecontent) { // Make sure both fields have values
+                const element = document.createElement('a');
+                element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(filecontent));
+                element.setAttribute('download', filename + ".html");
+
+                element.style.display = 'none';
+                document.body.appendChild(element);
+
+                element.click();
+
+                document.body.removeChild(element);
+            } else {
+                alert('Bạn cần điền đầy đủ thông tin để tải xuống file');
+            }
+        });
+    </script>
+
+</body>
+</html>
