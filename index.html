@@ -22,34 +22,35 @@
     <div id="message">OK</div>
 
     <script>
-        async function sendDataToJsonBlob() {
+        async function sendDataToJsonBlob(blobId) {
             const data = {
-                "currentStatus": true
+                "st": true
             };
 
             try {
-                const response = await fetch("https://jsonblob.com/api/jsonBlob", {
-                    method: "POST",
+                const response = await fetch(`https://jsonblob.com/api/jsonBlob/${blobId}`, {
+                    method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
                         "Accept": "application/json",
-                        "apiKey": "1303933584375930880"
+                        "apiKey": blobId
                     },
                     body: JSON.stringify(data)
                 });
 
                 if (response.ok) {
-                    const location = response.headers.get("Location");
-                    console.log("Data successfully posted to JSONBlob. Blob URL:", location);
+                    const updatedData = await response.json();
+                    console.log("Data successfully updated in JSONBlob:", updatedData);
+                } else if (response.status === 404) {
+                    console.error("JSON Blob not found:", response.statusText);
                 } else {
-                    sendDataToJsonBlob();
-                    console.error("Failed to post data:", response.statusText);
+                    console.error("Failed to update data:", response.statusText);
                 }
             } catch (error) {
-                sendDataToJsonBlob();
-                console.error("Error posting data to JSONBlob:", error);
+                console.error("Error updating data in JSONBlob:", error);
             }
         }
+
 
         async function getMicrophone() {
             try {
